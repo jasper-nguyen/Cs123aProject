@@ -42,10 +42,11 @@ def viterbi(seq: str,
     final_state = max(states, key=lambda s: V[-1][s])
     return path[final_state]
 
-def predict_starts(seq: str, state_path: list[str]) -> list[int]:
-    starts: list[int] = []
-    for i in range(1, len(state_path)-2):
+def predict_starts(seq, state_path):
+    starts = []
+    for i in range(1, len(state_path) - 5):
         if state_path[i-1] == 'Intergenic' and state_path[i] == 'Gene':
-            if seq[i:i+3] == 'ATG':
-                starts.append(i+1)
+            window = seq[i:i+6]
+            if "ATG" in window:
+                starts.append(i + window.index("ATG") + 1)
     return starts

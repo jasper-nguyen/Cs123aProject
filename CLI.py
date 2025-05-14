@@ -3,7 +3,7 @@ import argparse
 from backend import load_sequence, viterbi, predict_starts
 
 def main():
-    print("HMM-based start-site predictor\n")
+
 
 
     parser = argparse.ArgumentParser(

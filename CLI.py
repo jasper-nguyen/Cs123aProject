@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import argparse
 from backend import load_sequence, viterbi, predict_starts
 

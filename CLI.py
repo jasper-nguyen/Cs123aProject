@@ -13,14 +13,14 @@ def main():
                         help="Write predicted start positions to FILE (one per line)")
     args = parser.parse_args()
 
-
+#loads dna sequence from fasta file
     seq = load_sequence(args.fasta)
     print(f"Loaded sequence: {len(seq):,} bp from '{args.fasta}'")
-
+#gets all occurences of start codons
     all_atgs = [i+1 for i in range(len(seq) - 2) if seq[i:i+3] == 'ATG']
     print(f"ATG codons detected: {len(all_atgs)} (first 10 at positions: {all_atgs[:10]})")
 
-
+#hmm parameters
     states = ["Intergenic", "Gene"]
     start_p = {"Intergenic": 0.85, "Gene": 0.15}
     trans_p = {
@@ -32,12 +32,12 @@ def main():
         "Gene": {"A": 0.60, "C": 0.05, "G": 0.30, "T": 0.05}
     }
 
-
+#runs algorithm
     path = viterbi(seq, states, start_p, trans_p, emit_p)
     print(f"HMM path computed across {len(path):,} states")
     print(f"Total positions in 'Gene' state: {path.count('Gene'):,}")
 
-
+#predict start codons
     starts = predict_starts(seq, path)
     print(f"Predicted start sites: {len(starts)}")
     if starts:
